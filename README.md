@@ -1,4 +1,4 @@
-# Projeto MapFood
+# Projeto MapFood - Squad 6
 
 ## Requisitos
 
@@ -99,7 +99,7 @@ recursos estáticos disponibilizados pela [Code:Nation](https://www.codenation.c
 ### Como compilar
 
 - Clone esse repositório:  
-```git clone [TODO: nome do repositorio]```
+```git clone git@github.com:ricardoebbers/mapfood.git```
 - Acesse a pasta do repositorio:  
 ```cd mapfood```
 - Rode o clean install do maven:  
