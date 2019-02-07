@@ -1,39 +1,20 @@
 package mapfood.models;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class Client {
-    @Id
-    private ObjectId _id;
+    @Id private String _id;
 
-    private String idClient;
+    private int id_client;
     private double longitude;
     private double latitude;
 
-    public Client() {};
-
-    public Client(ObjectId _id, String idCliente, double longitude, double latitude) {
-        this._id = _id;
-        this.idClient = idCliente;
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public int getIdClient() {
+        return id_client;
     }
 
-    public String get_id() {
-        return _id.toHexString();
-    }
-
-    public void set_id(ObjectId _id) {
-        this._id = _id;
-    }
-
-    public String getIdCliente() {
-        return idClient;
-    }
-
-    public void setIdCliente(String idClient) {
-        this.idClient = idClient;
+    public void setIdClient(int id_client) {
+        this.id_client = id_client;
     }
 
     public double getLongitude() {
