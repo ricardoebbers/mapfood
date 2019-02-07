@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - openjdk8
+
+./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+./mvnw test -B
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "W1vlpN19+Abd5NOfLfwcsEVnP0vWfbRV042dRD2vv7MzOUjYg4gWZnOLZsy0qPwqYhhKEOtjK0wuTlYbWG9oVCt59cfptpYTMb5T/FxRlrsu9UHyfCRZgsgiRT5LPPFZHu6Dfh2ycR8f+g1mv/XhDFIcLPVRziWRIEO/O1Mp7v+Ad1vz3zaDAn/AecqyswfIvExelj36FsNDszd5SgbgG+aimrlJFZ3O7fnuIhBzGR8yxUIXjAdq4oSsE9f52ywvoEP4s5ldP/0h1kdRpR89au0tAM51Trg1ElNdAuwQs30OuAgZ2yQGKybb1nkNLls6o+XRvIzxZZ6j2llsrXaEs1TI95H/HoqiCvE5DbL7j6qSv7pzBpeWbefDpjdEWJxkzPdoXw4uToRxxTCxC/ltDMyzLWEPTH4tJ10Z4ZeU7+1iU868l/aEWyickgdq7rDsmE5w6glrIV0QydioY1c6/zOV4e2rUCktAZjv8ZdFmExt9YsSE0bDsGaFyJApcUyI2AVlU+GWw4xoYcqJ2nNybnc29ThnhNL6fDJx93w6H1/1B8aKu0YlOHSh9gp/Nk+Z2jbOvVk8JKNT1kmVu2jMnsbmNxGeUMLS1eBcjsLEUXa+6ikSM+lR2IXqFxSBzs3tkyfoyxHiq1gam8j7C5zjzPz8DjtTPDMZnNZZcD7zLDI="
