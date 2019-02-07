@@ -19,6 +19,7 @@ public class ClientController {
 
     @GetMapping("")
     public List<Client> getAllClients() {
+        System.out.println(repository.findAll());
         return repository.findAll();
     }
 
