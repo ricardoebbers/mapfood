@@ -2,20 +2,20 @@ package mapfood.models;
 
 import org.springframework.data.annotation.Id;
 
-public class Client {
+public class Motoboy {
     @Id
     private String _id;
 
-    private int id_client;
+    private int id_motoboy;
     private double longitude;
     private double latitude;
 
-    public int getIdClient() {
-        return id_client;
+    public int getIdMotoboy() {
+        return id_motoboy;
     }
 
-    public void setIdClient(int id_client) {
-        this.id_client = id_client;
+    public void setIdMotoboy(int id_motoboy) {
+        this.id_motoboy = id_motoboy;
     }
 
     public double getLongitude() {
