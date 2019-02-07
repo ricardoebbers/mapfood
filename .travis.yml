@@ -1,10 +1,10 @@
 language: java
 jdk:
   - openjdk8
-
-./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-./mvnw test -B
-
+install:
+  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script:
+  - ./mvnw test -B
 deploy:
   provider: heroku
   api_key:
