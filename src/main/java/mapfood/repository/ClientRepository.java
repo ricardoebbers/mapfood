@@ -1,9 +1,9 @@
-package mapfood.repositories;
+package mapfood.repository;
 
-import mapfood.models.Client;
+import mapfood.model.Client;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "clients", path = "clients")
+@RepositoryRestResource(collectionResourceRel = "client", path = "clients")
 public interface ClientRepository extends MongoRepository<Client, String> {
 }

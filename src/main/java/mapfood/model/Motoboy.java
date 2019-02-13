@@ -1,6 +1,4 @@
-package mapfood.models;
-
-import org.springframework.data.annotation.Id;
+package mapfood.model;
 
 public class Motoboy extends Person {
 

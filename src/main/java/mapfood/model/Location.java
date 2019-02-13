@@ -1,4 +1,4 @@
-package mapfood.models;
+package mapfood.model;
 
 public class Location {
     private static final String type = "Point";

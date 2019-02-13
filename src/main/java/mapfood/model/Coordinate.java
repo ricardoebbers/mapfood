@@ -1,6 +1,5 @@
-package mapfood.models;
+package mapfood.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
