@@ -1,26 +1,37 @@
 package mapfood.models;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "restaurant_city")
+import java.util.List;
+
 public class Restaurant {
+
     @Id
     private String _id;
 
-    private String restaurant_id;
     private String restaurant;
     private String address_city;
     private String dish_description;
-    private double longitude;
-    private double latitude;
+    private Location loc;
+    private List<Product> products;
 
-    public String getRestaurant_id() {
-        return restaurant_id;
+
+    public Restaurant(String _id, String restaurant, String address_city, String dish_description,
+                      Location loc, List<Product> products) {
+        this._id = _id;
+        this.restaurant = restaurant;
+        this.address_city = address_city;
+        this.dish_description = dish_description;
+        this.loc = loc;
+        this.products = products;
     }
 
-    public void setRestaurant_id(String restaurant_id) {
-        this.restaurant_id = restaurant_id;
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getRestaurant() {
@@ -47,19 +58,19 @@ public class Restaurant {
         this.dish_description = dish_description;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Location getLoc() {
+        return loc;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLoc(Location loc) {
+        this.loc = loc;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
