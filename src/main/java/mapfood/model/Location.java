@@ -1,28 +1,32 @@
 package mapfood.model;
 
+import java.util.List;
+
 public class Location {
-    private static final String type = "Point";
 
-    private Coordinate coordinates;
+    private String type;
 
-    public Location(Coordinate coordinates) {
+    private List<Double> coordinates;
+
+
+    public Location(String type, List<Double> coordinates) {
+        this.type = type;
         this.coordinates = coordinates;
     }
 
-    public Location(double longitude, double latitude) {
-        this.coordinates = new Coordinate(longitude, latitude);
-    }
-
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
-    public Coordinate getCoordinates() {
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<Double> getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(Coordinate coordinates) {
+    public void setCoordinates(List<Double> coordinates) {
         this.coordinates = coordinates;
     }
-
 }
