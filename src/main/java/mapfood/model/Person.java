@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Person {
+public abstract class Person {
 
     @Id String _id;
     Location loc;
