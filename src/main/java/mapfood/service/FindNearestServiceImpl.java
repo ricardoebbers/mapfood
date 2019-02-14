@@ -21,10 +21,9 @@ public class FindNearestServiceImpl implements FindNearestService {
     @Autowired
     private MotoboyRepository motoboyRepository;
 
-    private final Distance distance = new Distance(5, Metrics.KILOMETERS);
-
     @Override
-    public List<Motoboy> getNearestMotoboys(Integer restaurantId) {
+    public List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer meters) {
+        Distance distance = new Distance(meters, Metrics.KILOMETERS);
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
         Point point = restaurant.getLoc().toPoint();
         return motoboyRepository.findByLocNear(point, distance);
