@@ -37,7 +37,7 @@ def convertCoordinatesIntoGeoJSON(in_list, isLowercase=False):
   for item in in_list:
     item["loc"] = {
       "type": "Point",
-      "coordinates": [float(item.pop(longitude)), float(item.pop(latitude))]
+      "coordinates": [float(item.pop(latitude)), float(item.pop(longitude))]
     }
 
 def dropCollection(collection):
