@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @NoRepositoryBean
-interface BaseRepository<T, ID extends Serializable> extends MongoRepository<T, ID> {
+public interface BaseRepository<T, ID extends Serializable> extends MongoRepository<T, ID> {
 
     @Override
     @RestResource(exported = false)
