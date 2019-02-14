@@ -21,7 +21,7 @@ public class NearestController {
     @GetMapping("/{restaurantId}")
     public List<Motoboy> getNearestMotoboys(
             @PathVariable("restaurantId") Integer restaurantId,
-            @RequestParam("distance") Integer distance) {
+            @RequestParam(value = "distance", required = false) Integer distance) {
         return this.findNearestService.getNearestMotoboys(restaurantId, distance);
     }
 }
