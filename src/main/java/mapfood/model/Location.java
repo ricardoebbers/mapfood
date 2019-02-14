@@ -1,32 +1,16 @@
 package mapfood.model;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Location {
 
-    private String type;
+    String type;
+    List<Double> coordinates;
 
-    private List<Double> coordinates;
-
-
-    public Location(String type, List<Double> coordinates) {
-        this.type = type;
-        this.coordinates = coordinates;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<Double> getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(List<Double> coordinates) {
-        this.coordinates = coordinates;
-    }
 }
