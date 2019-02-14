@@ -11,7 +11,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Restaurant {
 
-    @Id String _id;
+    @Id Integer _id;
     String restaurant;
     String address_city;
     String dish_description;

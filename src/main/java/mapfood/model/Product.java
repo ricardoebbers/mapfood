@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Product {
 
-    @Id String _id;
+    @Id Integer _id;
     String item_description;
     String classification;
     double unit_price;

@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class Person {
 
-    @Id String _id;
+    @Id Integer _id;
     Location loc;
 
 }
