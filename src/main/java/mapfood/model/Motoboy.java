@@ -8,5 +8,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Motoboy extends Person {
 
-    boolean available;
+    private boolean available;
 }
