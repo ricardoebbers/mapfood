@@ -31,4 +31,5 @@ public class FindNearestServiceImpl implements FindNearestService {
         Point point = restaurant.getLoc().toPoint();
         return motoboyRepository.findTop10ByLocNearAndAvailable(point, distance, true);
     }
+
 }
