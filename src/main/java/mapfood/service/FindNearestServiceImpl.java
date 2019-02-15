@@ -24,11 +24,12 @@ public class FindNearestServiceImpl implements FindNearestService {
     @Override
     public List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer kilometers) {
         if (kilometers == null) {
-            kilometers = 1;
+            kilometers = 5;
         }
         Distance distance = new Distance(kilometers, Metrics.KILOMETERS);
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
         Point point = restaurant.getLoc().toPoint();
-        return motoboyRepository.findByLocNear(point, distance);
+        return motoboyRepository.findTop10ByLocNearAndAvailable(point, distance, true);
     }
+
 }

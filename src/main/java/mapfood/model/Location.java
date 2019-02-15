@@ -14,17 +14,19 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Location {
 
-    @JsonIgnore
-    @Transient
-    private double longitude;
-    @Transient
-    @JsonIgnore
-    private double latitude;
     String type;
     List<Double> coordinates;
 
+    public double getLongitude() {
+        return this.coordinates.get(0);
+    }
+
+    public double getLatitude() {
+        return this.coordinates.get(1);
+    }
+
     public Point toPoint() {
-        return new Point(this.coordinates.get(0), this.coordinates.get(1));
+        return new Point(this.getLongitude(), this.getLatitude());
     }
 
 }
