@@ -1,5 +1,12 @@
 package mapfood.model;
 
-public class Motoboy extends Person {
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Motoboy extends Person {
+    
+    private boolean available;
 }
