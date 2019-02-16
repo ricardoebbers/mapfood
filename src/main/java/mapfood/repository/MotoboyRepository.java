@@ -1,5 +1,6 @@
 package mapfood.repository;
 
+import mapfood.model.Location;
 import mapfood.model.Motoboy;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
