@@ -35,7 +35,32 @@ public class MotoboyTest {
     
     @Test
     public void updateMotoboyLocationTest() throws Exception {
+        // original location
+        // -30.07518676
+        // -51.216203
         Optional<Motoboy> result2 = service.getbyId(1);
         assertNotNull(result2);
+        assertTrue(result2.get().getLoc().getCoordinates().get(0).equals(-30.07518676));
+        assertTrue(result2.get().getLoc().getCoordinates().get(1).equals(-51.216203));
+        
+        Location l = new Location();
+        l.setType("Point");
+        l.setCoordinates(Arrays.asList(new Double[]{0.0,0.0}));
+        result2.get().setLoc(l);
+        service.save(result2.get());
+    
+        result2 = service.getbyId(1);
+        assertTrue(result2.get().getLoc().getCoordinates().get(0).equals(0.0));
+        assertTrue(result2.get().getLoc().getCoordinates().get(1).equals(0.0));
+    
+        l.setCoordinates(Arrays.asList(new Double[]{-30.07518676,-51.216203}));
+        result2.get().setLoc(l);
+        service.save(result2.get());
+    
+        result2 = service.getbyId(1);
+        assertNotNull(result2);
+        assertTrue(result2.get().getLoc().getCoordinates().get(0).equals(-30.07518676));
+        assertTrue(result2.get().getLoc().getCoordinates().get(1).equals(-51.216203));
+        
     }
 }

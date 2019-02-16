@@ -23,5 +23,9 @@ public class MotoboyService {
   public Optional<Motoboy> getbyId(Integer id) {
     return repository.findById(id);
   }
+  
+  public void save(Motoboy motoboy){
+    repository.save(motoboy);
+  }
 
 }
