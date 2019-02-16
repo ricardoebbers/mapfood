@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Restaurant {
     String restaurant;
     String address_city;
     String dish_description;
+    @Indexed
     Location loc;
     List<Product> products;
 

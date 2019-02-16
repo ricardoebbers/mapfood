@@ -20,12 +20,11 @@ public class MotoboyService {
     return repository.findByAvailable(available);
   }
   
-  public Optional<Motoboy> getbyId(Integer id) {
+  public Optional<Motoboy> getById(Integer id) {
     return repository.findById(id);
   }
   
   public void save(Motoboy motoboy){
     repository.save(motoboy);
   }
-
 }
