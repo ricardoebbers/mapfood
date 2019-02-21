@@ -30,4 +30,11 @@ public class OrderController {
             return orderService.createOrder(idClient, idRestaurant, orderItemList);
 
     }
+
+    @GetMapping("/{idRestaurant}")
+    public List<Order> getOrdersForRestaurant(
+            @PathVariable String idRestaurant,
+            @RequestParam(value = "status", required = false) String status) {
+        return orderService.getOrderForRestaurant(idRestaurant, status);
+    }
 }
