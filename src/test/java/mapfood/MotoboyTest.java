@@ -26,40 +26,10 @@ public class MotoboyTest {
     MotoboyService service;
     @Autowired
     private TestRestTemplate restTemplate;
-    
-    private class MotoboyList {
-        private List<Motoboy> motoboys;
-        
-        public MotoboyList() {
-            motoboys = new ArrayList<>();
-        }
-    
-        public List<Motoboy> getMotoboys() {
-            return motoboys;
-        }
-    
-        public void setMotoboys(List<Motoboy> motoboys) {
-            this.motoboys = motoboys;
-        }
-    
-        // standard constructor and getter/setter
-    }
-    
+
     @Test
     public void getAvaiablesFromService() throws Exception {
         List<Motoboy> result2 = service.getAvailable(true);
         assertNotNull(result2);
     }
-    
-    
-//    @Test
-//    public void getAvaiablesFromController() throws Exception {
-//        ResponseEntity<MotoboyList> response;
-//        response = restTemplate.getForEntity("/motoboys/available/true",MotoboyList.class);
-//
-//        //Motoboy resultList = response.getBody();
-//        assertEquals(response.getStatusCode(), HttpStatus.OK);
-//        //assertNotNull(quote);
-//    }
-
 }
