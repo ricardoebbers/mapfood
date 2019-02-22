@@ -22,4 +22,26 @@ public enum OrderEnum implements Serializable {
     public String valorStatus(){
         return valorStatus;
     }
+
+    public OrderEnum getNextStatus(){
+        switch (this){
+            case NOVO:
+                return RECEBIDO;
+            case RECEBIDO:
+                return EM_PREPARO;
+            case EM_PREPARO:
+                return SAIU_ENTREGA;
+            case PROCURANDO_ENTREGADOR:
+                return AGUARDANDO_ENTREGADOR;
+            case AGUARDANDO_ENTREGADOR:
+                return SAIU_ENTREGA;
+            case SAIU_ENTREGA:
+                return ENTREGUE;
+            case ENTREGUE:
+                break;
+            case CANCELADO:
+                break;
+        }
+        return this;
+    }
 }

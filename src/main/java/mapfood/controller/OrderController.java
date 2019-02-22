@@ -30,4 +30,9 @@ public class OrderController {
             return orderService.createOrder(idClient, idRestaurant, orderItemList);
 
     }
+
+    @PutMapping("/{idOrder}")
+    public Order alterOrderStatus(@PathVariable String idOrder){
+        return orderService.alterOrderStatus(idOrder);
+    }
 }
