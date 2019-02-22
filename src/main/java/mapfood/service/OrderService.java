@@ -8,4 +8,5 @@ public interface OrderService {
 
     Order createOrder(String idClient, String idRestaurant, List<OrderItem> orderItemList);
 
+    Order alterOrderStatus(String idOrder);
 }

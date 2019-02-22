@@ -2,6 +2,7 @@ package mapfood.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
@@ -12,12 +13,12 @@ import java.util.List;
 public class Order {
 
     @Id
-    String _id;
-    OrderEnum orderStatus;
-    Client client;
-    Motoboy motoboy;
-    Restaurant restaurant;
-    List<OrderItem> orderItems;
+    private String id;
+    private OrderEnum orderStatus;
+    private Client client;
+    private Motoboy motoboy;
+    private Restaurant restaurant;
+    private List<OrderItem> orderItems;
 
     public Order() {
     }
@@ -29,4 +30,5 @@ public class Order {
         this.restaurant = restaurant;
         this.orderItems = orderItems;
     }
+
 }
