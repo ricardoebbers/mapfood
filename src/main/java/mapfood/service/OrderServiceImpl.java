@@ -35,9 +35,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private RestaurantRepository restaurantRepository;
-    
-    @Autowired
-    private DirectionsService directionsService;
 
     @Override
     public Order createOrder(String idClient, String idRestaurant, List<OrderItem> orderItemList) {
