@@ -22,7 +22,10 @@ public class MotoboyTest {
     
     @Autowired
     MotoboyService service;
-    
+  
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     @Test
     public void availableMotoboysTest() throws Exception {
         List<Motoboy> result2 = service.getAvailable(true);

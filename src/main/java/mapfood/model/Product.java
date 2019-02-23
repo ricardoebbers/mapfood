@@ -2,6 +2,7 @@ package mapfood.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
