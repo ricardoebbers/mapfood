@@ -23,11 +23,11 @@ public class OrderController {
     @Autowired
     private final DirectionsService directionsService;
 
-    @PostMapping("/{idRestaurant}/{idClient}")
+    @PostMapping
     public Order createOrder(
             @RequestBody List<OrderItem> orderItemList,
-            @PathVariable String idRestaurant,
-            @PathVariable String idClient) {
+            @RequestParam String idRestaurant,
+            @RequestParam String idClient) {
 
         return orderService.createOrder(idClient, idRestaurant, orderItemList);
     }
