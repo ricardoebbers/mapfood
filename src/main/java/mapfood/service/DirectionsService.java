@@ -7,11 +7,14 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import lombok.RequiredArgsConstructor;
+import mapfood.model.Route;
 import mapfood.model.RouteTimes;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service that interacts with the Google's Direction API
@@ -42,6 +45,27 @@ public class DirectionsService {
         DirectionsApiRequest request = DirectionsApi.newRequest(this.context)
                 .origin(origin)
                 .destination(destination);
+
+        return this.getDirections(request);
+
+    }
+
+    /**
+     * Get the directions for the given locations descriptions.
+     *
+     * @param origin      - String describing the origin location,
+     *                    like Shopping Rio Mar or Olinda
+     * @param destination - String describing the destination location
+     * @param waypoint - String describring the waypoint
+     * @return DirectionResult
+     */
+    public DirectionsResult getDirectionsWithWaypoint(String origin, String waypoint,
+                                                String destination) {
+
+        DirectionsApiRequest request = DirectionsApi.newRequest(this.context)
+                .origin(origin)
+                .destination(destination)
+                .waypoints(waypoint);
 
         return this.getDirections(request);
 
@@ -113,6 +137,17 @@ public class DirectionsService {
                 .timeHourMinutes(matrixRoute.duration.humanReadable)
                 .timeSeconds(matrixRoute.duration.inSeconds)
                 .build();
+    }
+
+    public Route getRouteInstructions(DirectionsResult directionsResult, String description) {
+        DirectionsStep[] steps = directionsResult.routes[0].legs[0].steps;
+        String distance = directionsResult.routes[0].legs[0].distance.humanReadable;
+        String duration = directionsResult.routes[0].legs[0].duration.humanReadable;
+        List<String> route = new ArrayList<>();
+        for (int i = 0; i < steps.length; i++) {
+            route.add(steps[i].htmlInstructions.replaceAll("<[^>]*>", " ").trim());
+        }
+        return new Route(description, distance, duration, route);
     }
 
 }

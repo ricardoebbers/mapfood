@@ -1,6 +1,5 @@
 package mapfood.controller;
 
-import com.google.maps.model.DirectionsResult;
 import lombok.RequiredArgsConstructor;
 import mapfood.model.Order;
 import mapfood.model.OrderItem;
@@ -14,32 +13,36 @@ import java.util.List;
 
 @BasePathAwareController
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
-    
+
     @Autowired
     private OrderService orderService;
-    
+
     @Autowired
     private final DirectionsService directionsService;
-    
+
     @PostMapping("/{idRestaurant}/{idClient}")
     public Order createOrder(
             @RequestBody List<OrderItem> orderItemList,
             @PathVariable String idRestaurant,
             @PathVariable String idClient) {
-        
+
         return orderService.createOrder(idClient, idRestaurant, orderItemList);
     }
-    
-    //Coletar rota via api do google Maps passando motoboy e pedido
-    @GetMapping("/directions/{idMotoBoy}/{idOrder}")
-    public List<DirectionsResult> getOrderDirections(
-            @PathVariable String idMotoBoy,
-            @PathVariable String idOrder
-    ) {
-        return orderService.getOrderDirections(idMotoBoy, idOrder);
+
+    @PutMapping("/{orderId}")
+    public Order updateOrderStatus(
+            @PathVariable String orderId,
+            @RequestParam String status) {
+        return orderService.updateStatus(orderId, status);
+    }
+
+    @PutMapping("/{orderId}/motoboy")
+    public Order findAndSetMotoboy(
+            @PathVariable String orderId) {
+        return orderService.findAndSetMotoboy(orderId);
     }
 
     @GetMapping("/{idRestaurant}")

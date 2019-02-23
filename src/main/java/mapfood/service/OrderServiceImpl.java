@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderRepository orderRepository;
-    
+
     @Autowired
     private MotoboyRepository motoBoyRepository;
 
@@ -64,44 +64,45 @@ public class OrderServiceImpl implements OrderService{
         }
         return null;
     }
-  
+
     @Override
-    public List<DirectionsResult> getOrderDirections(String idMotoBoy, String idOrder) {
-        List<DirectionsResult> routes = new ArrayList<>();
-        List<Double> motoboyLocation;
-        List<Double> restaurantLocation;
-        List<Double> clienteLocation;
-    
-        if(!idMotoBoy.isEmpty() && !idOrder.isEmpty()){
-    
-            Optional<Motoboy> motoboy = this.motoBoyRepository.findById(Integer.parseInt(idMotoBoy));
-            Optional<Order> order = this.orderRepository.findById(idOrder);
-            
-            if(motoboy.isPresent() && order.isPresent()){
-                motoboyLocation = motoboy.get().getLoc().getCoordinates();
-                restaurantLocation = order.get().getRestaurant().getLoc().getCoordinates();
-            // rout motoboy to restaurant
-                StringBuilder motoSb = new StringBuilder();
-                StringBuilder restSb = new StringBuilder();
-                if(motoboyLocation!=null && motoboyLocation.size()==2 && restaurantLocation!=null && restaurantLocation.size()==2){
-                    motoSb.append(motoboyLocation.get(0)+","+motoboyLocation.get(1));
-                    restSb.append(restaurantLocation.get(0)+","+restaurantLocation.get(1));
-                }
-                routes.add(this.directionsService.getDirections(motoSb.toString(), restSb.toString()));
-                // route restaurant to client
-                clienteLocation = order.get().getClient().getLoc().getCoordinates();
-                StringBuilder clientSb = new StringBuilder();
-                if(clienteLocation!=null && clienteLocation.size()==2){
-                    clientSb.append(clienteLocation.get(0)+","+clienteLocation.get(1));
-                }
-                routes.add(this.directionsService.getDirections(restSb.toString(), clientSb.toString()));
-            }
-    
-        
-            
-        }
-        
-        return routes;
+    public Order updateStatus(String orderId, String status) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setOrderStatus(OrderEnum.valueOf(status));
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Override
+    public Order findAndSetMotoboy(String orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        Restaurant restaurant = order.getRestaurant();
+        Motoboy motoboy = findNearestService.getNearestMotoboy(restaurant.get_id(), 5);
+        order.setMotoboy(motoboy);
+        motoboy.setAvailable(false);
+        motoBoyRepository.save(motoboy);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Override
+    public List<Route> getOrderDirections(String orderId) {
+        List<Route> result = new ArrayList<>();
+        Order order = orderRepository.findById(orderId).get();
+        String motoboyLocation = order.getMotoboy().getLoc().coordinatesToString();
+        String restaurantLocation = order.getRestaurant().getLoc().coordinatesToString();
+        String clientLocation = order.getClient().getLoc().coordinatesToString();
+        DirectionsResult requestToRestaurant =
+                directionsService.getDirections(motoboyLocation, restaurantLocation);
+        Route routeToRestaurant = directionsService.getRouteInstructions(requestToRestaurant,
+                "Rota até o restaurante.");
+        result.add(routeToRestaurant);
+        DirectionsResult requestToClient = directionsService.getDirections(restaurantLocation,
+                clientLocation);
+        Route routeToClient = directionsService.getRouteInstructions(requestToClient,
+                "Rota até o cliente.");
+        result.add(routeToClient);
+        return result;
     }
 
     @Override

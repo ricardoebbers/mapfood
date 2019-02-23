@@ -20,7 +20,7 @@ public class FindNearestServiceImpl implements FindNearestService {
 
     @Autowired
     private MotoboyRepository motoboyRepository;
-    
+
     @Override
     public List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer kilometers) {
         if (kilometers == null) {
@@ -32,4 +32,8 @@ public class FindNearestServiceImpl implements FindNearestService {
         return motoboyRepository.findTop10ByLocNearAndAvailable(point, distance, true);
     }
 
+    @Override
+    public Motoboy getNearestMotoboy(Integer restaurantId, Integer distance) {
+        return this.getNearestMotoboys(restaurantId, distance).get(0);
+    }
 }

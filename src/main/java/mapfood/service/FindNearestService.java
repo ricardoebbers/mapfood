@@ -8,4 +8,6 @@ public interface FindNearestService {
 
     List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer distance);
 
+    Motoboy getNearestMotoboy(Integer restaurantId, Integer distance);
+
 }

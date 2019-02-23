@@ -29,4 +29,8 @@ public class Location {
         return new Point(this.getLongitude(), this.getLatitude());
     }
 
+    public String coordinatesToString() {
+        return this.coordinates.get(0) + "," + this.coordinates.get(1);
+    }
+
 }
