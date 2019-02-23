@@ -37,4 +37,9 @@ public class OrderController {
             @RequestParam(value = "status", required = false) String status) {
         return orderService.getOrderForRestaurant(idRestaurant, status);
     }
+
+    @GetMapping("/deliveryForecast/{idOrder}")
+    public Long getDeliveryForecast(@PathVariable String idOrder) {
+        return orderService.deliveryForecast(idOrder);
+    }
 }
