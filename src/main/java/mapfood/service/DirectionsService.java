@@ -145,7 +145,7 @@ public class DirectionsService {
         String duration = directionsResult.routes[0].legs[0].duration.humanReadable;
         List<String> route = new ArrayList<>();
         for (int i = 0; i < steps.length; i++) {
-            route.add(steps[i].htmlInstructions.replaceAll("<[^>]*>", " ").trim());
+            route.add(steps[i].htmlInstructions.replaceAll("<[^>]*>", ""));
         }
         return new Route(description, distance, duration, route);
     }
