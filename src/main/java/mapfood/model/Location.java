@@ -2,6 +2,7 @@ package mapfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.geo.Point;
@@ -9,6 +10,7 @@ import org.springframework.data.geo.Point;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Location {
 

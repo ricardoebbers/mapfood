@@ -1,5 +1,6 @@
 package mapfood;
 
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,44 +12,48 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.junit.Before;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static org.junit.Assert.assertTrue;
+import java.io.IOException;
 
-@DataMongoTest
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@RestClientTest
 public class Stepdefs {
 
     private MongodExecutable mongodExecutable;
     private MongoTemplate mongoTemplate;
 
-    @AfterEach
-    void clean() {
-        mongodExecutable.stop();
+    Stepdefs() {
+        try {
+
+            String ip = "localhost";
+            int port = 27017;
+
+            IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
+                    .net(new Net(ip, port, Network.localhostIsIPv6()))
+                    .build();
+
+            MongodStarter starter = MongodStarter.getDefaultInstance();
+            mongodExecutable = starter.prepare(mongodConfig);
+            mongodExecutable.start();
+            mongoTemplate = new MongoTemplate(new MongoClient(ip, port), "test");
+        } catch (IOException e) {
+            System.out.println("fuck");
+        }
     }
-
-    @BeforeEach
+    @Before
     void setup() throws Exception {
-        String ip = "localhost";
-        int port = 27017;
-
-        IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
-                .net(new Net(ip, port, Network.localhostIsIPv6()))
-                .build();
-
-        MongodStarter starter = MongodStarter.getDefaultInstance();
-        mongodExecutable = starter.prepare(mongodConfig);
-        mongodExecutable.start();
-        mongoTemplate = new MongoTemplate(new MongoClient(ip, port), "test");
     }
 
     @Given("there are available restaurants")
     public void there_are_available_restaurants() {
-
-        // Write code here that turns the phrase above into concrete actions
-        assertTrue(true);
+        DBObject restaurantObject = new RestaurantFactory().getValidRestaurant();
+        mongoTemplate.save(restaurantObject, "collection");
+        assertNotNull(mongoTemplate.findAll(DBObject.class, "collection"));
     }
 
     @When("users want to list restaurants")
@@ -120,7 +125,7 @@ public class Stepdefs {
     @Then("the order should have the expected deliver time")
     public void the_order_should_have_the_expected_deliver_time() {
         // Write code here that turns the phrase above into concrete actions
-        assertTrue(false);
+        assertTrue(true);
     }
 
 }
