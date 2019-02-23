@@ -54,4 +54,13 @@ public class OrderServiceImpl implements OrderService{
         return null;
     }
 
+    @Override
+    public List<Order> getOrderForRestaurant(String idRestaurant, String status) {
+
+        if (status == null || status.isEmpty()) {
+            return orderRepository.findAllByRestaurant__id(Integer.valueOf(idRestaurant));
+        }
+        return orderRepository.findAllByRestaurant__idAndOrderStatus(Integer.valueOf(idRestaurant), status.toUpperCase());
+
+    }
 }
