@@ -7,7 +7,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import java.util.List;
 
 @RepositoryRestController
-public interface OrderRepository extends BaseRepository<Order, Integer> {
+public interface OrderRepository extends BaseRepository<Order, String> {
 
     List<Order> findAllByRestaurant__id(Integer id);
 
