@@ -18,8 +18,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RestClientTest
 public class Stepdefs {
@@ -53,7 +52,7 @@ public class Stepdefs {
     public void there_are_available_restaurants() {
         DBObject restaurantObject = new RestaurantFactory().getValidRestaurant();
         mongoTemplate.save(restaurantObject, "collection");
-        assertNotNull(mongoTemplate.findAll(DBObject.class, "collection"));
+        assertNull(mongoTemplate.findAll(DBObject.class, "collection"));
     }
 
     @When("users want to list restaurants")
