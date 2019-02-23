@@ -3,7 +3,6 @@ package mapfood.service;
 import com.google.maps.model.DirectionsResult;
 import mapfood.model.*;
 import mapfood.repository.ClientRepository;
-import mapfood.repository.MotoboyRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class OrderServiceImpl implements OrderService{
     private OrderRepository orderRepository;
 
     @Autowired
-    private MotoboyRepository motoBoyRepository;
+    private MotoboyService motoboyService;
 
     @Autowired
     private FindNearestService findNearestService;
@@ -68,6 +67,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order updateStatus(String orderId, String status) {
         Order order = orderRepository.findById(orderId).get();
+        OrderEnum orderEnum = OrderEnum.valueOf(status);
+        if (orderEnum == OrderEnum.ENTREGUE) {
+            motoboyService.updateLocAndAvailability(order.getMotoboy(), order.getClient().getLoc());
+        }
         order.setOrderStatus(OrderEnum.valueOf(status));
         orderRepository.save(order);
         return order;
@@ -80,7 +83,7 @@ public class OrderServiceImpl implements OrderService{
         Motoboy motoboy = findNearestService.getNearestMotoboy(restaurant.get_id(), 5);
         order.setMotoboy(motoboy);
         motoboy.setAvailable(false);
-        motoBoyRepository.save(motoboy);
+        motoboyService.save(motoboy);
         orderRepository.save(order);
         return order;
     }
