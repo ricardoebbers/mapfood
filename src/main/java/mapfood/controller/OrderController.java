@@ -41,4 +41,16 @@ public class OrderController {
     ) {
         return orderService.getOrderDirections(idMotoBoy, idOrder);
     }
+
+    @GetMapping("/{idRestaurant}")
+    public List<Order> getOrdersForRestaurant(
+            @PathVariable String idRestaurant,
+            @RequestParam(value = "status", required = false) String status) {
+        return orderService.getOrderForRestaurant(idRestaurant, status);
+    }
+
+    @GetMapping("/deliveryForecast/{idOrder}")
+    public Long getDeliveryForecast(@PathVariable String idOrder) {
+        return orderService.deliveryForecast(idOrder);
+    }
 }

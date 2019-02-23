@@ -3,6 +3,7 @@ package mapfood.controller;
 import com.google.maps.model.DirectionsResult;
 import lombok.RequiredArgsConstructor;
 import mapfood.service.DirectionsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DirectionController {
 
-  private final DirectionsService directionsService;
+  @Autowired
+  private DirectionsService directionsService;
 
   @GetMapping
   public DirectionsResult getDirections(

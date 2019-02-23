@@ -1,13 +1,17 @@
 package mapfood.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
 
@@ -18,15 +22,6 @@ public class Order {
     Motoboy motoboy;
     Restaurant restaurant;
     List<OrderItem> orderItems;
+    Long deliveryExpectation;
 
-    public Order() {
-    }
-
-    public Order(OrderEnum orderStatus, Client client, Motoboy motoboy, Restaurant restaurant, List<OrderItem> orderItems) {
-        this.orderStatus = orderStatus;
-        this.client = client;
-        this.motoboy = motoboy;
-        this.restaurant = restaurant;
-        this.orderItems = orderItems;
-    }
 }

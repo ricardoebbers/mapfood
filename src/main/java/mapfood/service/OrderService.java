@@ -10,4 +10,8 @@ public interface OrderService {
     Order createOrder(String idClient, String idRestaurant, List<OrderItem> orderItemList);
     
     List<DirectionsResult> getOrderDirections(String idMotoBoy, String idOrder);
+
+    List<Order> getOrderForRestaurant(String idRestaurant, String status);
+
+    Long deliveryForecast(String idOrder);
 }
