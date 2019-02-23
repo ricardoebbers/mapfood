@@ -52,7 +52,7 @@ public class Stepdefs {
     public void there_are_available_restaurants() {
         DBObject restaurantObject = new RestaurantFactory().getValidRestaurant();
         mongoTemplate.save(restaurantObject, "collection");
-        assertNull(mongoTemplate.findAll(DBObject.class, "collection"));
+        assertNotNull(mongoTemplate.findAll(DBObject.class, "collection"));
     }
 
     @When("users want to list restaurants")
