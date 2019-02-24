@@ -7,6 +7,7 @@ import mapfood.service.DirectionsService;
 import mapfood.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class OrderController {
     private final DirectionsService directionsService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(
             @RequestBody List<OrderItem> orderItemList,
             @RequestParam String idRestaurant,

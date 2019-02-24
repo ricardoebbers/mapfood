@@ -28,6 +28,11 @@ public class MotoboyService {
   public void save(Motoboy motoboy){
     repository.save(motoboy);
   }
+  
+  // Test purpose only
+  public void delete(Motoboy motoboy){
+    repository.delete(motoboy);
+  }
 
   public void updateLocAndAvailability(Motoboy motoboy, Location location) {
     motoboy.setAvailable(true);
