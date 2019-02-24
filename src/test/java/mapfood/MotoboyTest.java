@@ -14,8 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,9 +25,14 @@ public class MotoboyTest {
   
     @Autowired
     private TestRestTemplate restTemplate;
-
+    
     @Test
-    public void availableMotoboysTest() throws Exception {
+    public void testBuildFail() throws Exception {
+        assertFalse(true);
+    }
+    
+    @Test
+    public void getAvailableMotoboy() throws Exception {
         List<Motoboy> result2 = service.getAvailable(true);
         assertNotNull(result2);
     }
