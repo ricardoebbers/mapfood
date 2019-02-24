@@ -36,14 +36,14 @@ public class OrderControllerTest {
     
     @Test
     public void whenCreateNewOrder_thenCreated() {
-        assertTrue(true);
-//        Order order = createRadomOrder();
-//        Response response = RestAssured.given()
-//                .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                .body(order)
-//                .post(API_ROOT);
-//
-//        assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
+        //assertTrue(true);
+        Order order = createRadomOrder();
+        Response response = RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(order)
+                .post(API_ROOT);
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
     
     private Order createRadomOrder() {
