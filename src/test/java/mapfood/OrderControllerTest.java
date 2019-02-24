@@ -6,14 +6,17 @@ import mapfood.controller.OrderController;
 import mapfood.model.Order;
 import mapfood.model.OrderItem;
 import mapfood.service.OrderService;
+import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,24 +30,32 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = { Application.class }, webEnvironment
         = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class OrderControllerTest {
-    
-    @MockBean
-    private OrderService service;
-    
-    private static final String API_ROOT
-            = "http://localhost:8080/api/v1/orders";
+
+    TestRestTemplate restTemplate = new TestRestTemplate();
     
     @Test
-    public void whenCreateNewOrder_thenCreated() {
-        //assertTrue(true);
-        Order order = createRadomOrder();
-        Response response = RestAssured.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(order)
-                .post(API_ROOT);
-
-        assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
+    public void testCreate() {
+        
+        Order newOrder = createRadomOrder();
+        
+        HttpEntity<Order> entity = new HttpEntity<Order>(newOrder, headers);
+        
+        ResponseEntity<Order> response = restTemplate.exchange(
+                createURLWithPort("/api/v1/orders?idRestaurant=1&idClient=1"),
+                HttpMethod.POST, entity, Order.class);
+        
+        String actual = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+        
+        assertTrue(actual.contains("/students/Student1/courses/"));
+        
     }
+    
+    HttpHeaders headers = new HttpHeaders();
+    
+    private String createURLWithPort(String uri) {
+        return "http://localhost:8080" + uri;
+    }
+    
     
     private Order createRadomOrder() {
     
