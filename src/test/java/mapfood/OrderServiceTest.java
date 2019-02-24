@@ -32,22 +32,37 @@ public class OrderServiceTest {
     
     @Test
     public void givenOrderItemAndClientAndMotoboyCreateOrderDeleteOrder() throws Exception {
-        List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderItem> orderItems = generateOrderItemsList();
         
-        OrderItem orderItem = new OrderItem();
-        orderItem.setUnit_price(5.5);
-        orderItem.set_id(838);
-        orderItem.setItem_description("Refrigerantes Lata TEST");
-        orderItem.setClassification("Bebidas TEST");
-        orderItem.setQuantity(2);
-        
-        orderItems.add(orderItem);
-
+        // create order
         Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
         assertNotNull(result);
         assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
+        
+        // delete order
         repository.deleteById(result.get_id());
         assertTrue(!repository.findById(result.get_id()).isPresent());
+    }
+    
+    @Test
+    public void givenOrderIdUpdateStatus() throws Exception {
+        List<OrderItem> orderItems = generateOrderItemsList();
+        
+        // create order
+        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        assertNotNull(result);
+        assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
+        
+        // update order status
+        service.updateStatus(result.get_id(),"CANCELADO");
+        Optional<Order> updatedOrder = repository.findById(result.get_id());
+        
+        assertTrue(updatedOrder.isPresent());
+        assertEquals(updatedOrder.get().getOrderStatus().toString(),OrderEnum.CANCELADO.toString());
+        
+        // delete order
+        repository.deleteById(updatedOrder.get().get_id());
+        assertTrue(!repository.findById(updatedOrder.get().get_id()).isPresent());
     }
     
     private Order createRadomOrder(){
@@ -57,4 +72,18 @@ public class OrderServiceTest {
         return result;
     }
     
+    private List<OrderItem> generateOrderItemsList(){
+        List<OrderItem> orderItems = new ArrayList<>();
+    
+        OrderItem orderItem = new OrderItem();
+        orderItem.setUnit_price(5.5);
+        orderItem.set_id(838);
+        orderItem.setItem_description("Refrigerantes Lata TEST");
+        orderItem.setClassification("Bebidas TEST");
+        orderItem.setQuantity(2);
+    
+        orderItems.add(orderItem);
+        
+        return orderItems;
+    }
 }
