@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
                 totalQuantity += orderItem.getQuantity();
             }
 
-            if (!orderItemList.isEmpty() && totalQuantity <= 5) {
+            if (!orderItemList.isEmpty()) {
 
                 Order order = new Order();
                 order.setClient(clientFinded);
