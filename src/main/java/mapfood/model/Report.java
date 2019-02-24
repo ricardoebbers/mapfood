@@ -12,20 +12,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Document
-public class Order {
+public class Report {
 
     @Id
-    String _id;
-    OrderEnum orderStatus;
-    Client client;
-    Motoboy motoboy;
+    String id;
     Restaurant restaurant;
-    List<OrderItem> orderItems;
-    Long deliveryExpectation;
+    String distanceToRestaurant;
+    String durationToRestaurant;
+    String distanceToClient;
+    String durationToClient;
     LocalDate date;
 
 }

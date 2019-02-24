@@ -5,9 +5,11 @@ import mapfood.model.*;
 import mapfood.repository.ClientRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +37,9 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private ReportService reportService;
+
     @Override
     public Order createOrder(String idClient, String idRestaurant, List<OrderItem> orderItemList) {
 
@@ -57,6 +62,7 @@ public class OrderServiceImpl implements OrderService{
                 order.setOrderItems(orderItemList);
                 order.setRestaurant(restaurantFinded);
                 order.setOrderStatus(OrderEnum.NOVO);
+                order.setDate(LocalDate.now());
 
                 return orderRepository.save(order);
             }
@@ -92,18 +98,26 @@ public class OrderServiceImpl implements OrderService{
     public List<Route> getOrderDirections(String orderId) {
         List<Route> result = new ArrayList<>();
         Order order = orderRepository.findById(orderId).get();
+
         String motoboyLocation = order.getMotoboy().getLoc().coordinatesToString();
         String restaurantLocation = order.getRestaurant().getLoc().coordinatesToString();
         String clientLocation = order.getClient().getLoc().coordinatesToString();
+
         DirectionsResult requestToRestaurant =
                 directionsService.getDirections(motoboyLocation, restaurantLocation);
         Route routeToRestaurant = directionsService.getRouteInstructions(requestToRestaurant,
                 "Rota até o restaurante.");
         result.add(routeToRestaurant);
+
         DirectionsResult requestToClient = directionsService.getDirections(restaurantLocation,
                 clientLocation);
+
         Route routeToClient = directionsService.getRouteInstructions(requestToClient,
                 "Rota até o cliente.");
+
+        reportService.setDistanceTimeForReport(routeToRestaurant.getDuration(), routeToRestaurant.getDistance(),
+                routeToClient.getDuration(), routeToClient.getDistance(), order.getRestaurant());
+
         result.add(routeToClient);
         return result;
     }
@@ -171,5 +185,10 @@ public class OrderServiceImpl implements OrderService{
             expecting = PREPARATION_TIME + minutesTimeRestaurantClient;
         }
         return expecting;
+    }
+
+    @Override
+    public List<Order> findAllByDateAndOrderStatus (LocalDate date) {
+        return orderRepository.findAllByDateAndOrderStatus(date, OrderEnum.RECEBIDO.valorStatus());
     }
 }

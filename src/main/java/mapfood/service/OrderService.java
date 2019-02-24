@@ -4,6 +4,7 @@ import mapfood.model.Order;
 import mapfood.model.OrderItem;
 import mapfood.model.Route;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderService {
@@ -19,5 +20,7 @@ public interface OrderService {
     Order updateStatus(String orderId, String status);
 
     Order findAndSetMotoboy(String orderId);
+
+    List<Order> findAllByDateAndOrderStatus(LocalDate date);
 
 }
