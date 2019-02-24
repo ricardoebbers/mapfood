@@ -26,10 +26,6 @@ public class MotoboyTest {
     @Autowired
     private TestRestTemplate restTemplate;
     
-    @Test
-    public void testBuildFail() throws Exception {
-        assertFalse(true);
-    }
     
     @Test
     public void getAvailableMotoboy() throws Exception {
