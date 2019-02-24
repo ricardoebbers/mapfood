@@ -100,6 +100,40 @@ public class OrderServiceTest {
     }
     
     
+    @Test
+    public void givenOrderIdGetDirections() throws Exception {
+        List<OrderItem> orderItems = generateOrderItemsList();
+        
+        // create order
+        Order newOrder = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        assertNotNull(newOrder);
+        assertTrue(newOrder.getOrderStatus().equals(OrderEnum.NOVO));
+        
+        assertNull(newOrder.getMotoboy());
+        
+        // update find and set motoboy
+        newOrder = service.findAndSetMotoboy(newOrder.get_id());
+        assertNotNull(newOrder.getMotoboy());
+        assertFalse(newOrder.getMotoboy().isAvailable());
+        
+        // get OrderDirections
+        List<Route> routes = new ArrayList<>();
+        routes = service.getOrderDirections(newOrder.get_id());
+        assertTrue(!routes.isEmpty());
+        
+        // turn motoboy available
+        Motoboy motoboy  = newOrder.getMotoboy();
+        motoboy.setAvailable(true);
+        motoBoyServive.save(motoboy);
+        
+        motoboy = motoBoyServive.getById(motoboy.get_id()).get();
+        assertTrue(motoboy.isAvailable());
+        
+        // delete order
+        repository.deleteById(newOrder.get_id());
+        assertTrue(!repository.findById(newOrder.get_id()).isPresent());
+    }
+    
     
     private Order createRadomOrder(){
     
