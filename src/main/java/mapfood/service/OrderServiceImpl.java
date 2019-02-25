@@ -5,7 +5,6 @@ import mapfood.model.*;
 import mapfood.repository.ClientRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -190,5 +189,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> findAllByDateAndOrderStatus (LocalDate date) {
         return orderRepository.findAllByDateAndOrderStatus(date, OrderEnum.RECEBIDO.valorStatus());
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return this.orderRepository.findAll();
     }
 }
