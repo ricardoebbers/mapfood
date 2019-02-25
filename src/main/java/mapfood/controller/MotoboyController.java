@@ -1,9 +1,7 @@
 package mapfood.controller;
 
-import com.google.maps.model.DirectionsResult;
 import lombok.RequiredArgsConstructor;
 import mapfood.model.Motoboy;
-import mapfood.service.DirectionsService;
 import mapfood.service.MotoboyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;

@@ -1,12 +1,7 @@
 package mapfood.service;
 
 import mapfood.model.*;
-import mapfood.repository.ClientRepository;
-import mapfood.repository.MotoboyRepository;
 import mapfood.repository.OrderRepository;
-import mapfood.repository.RestaurantRepository;
-import mapfood.service.MotoboyService;
-import mapfood.service.OrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +25,7 @@ public class OrderServiceTest {
     private OrderRepository repository;
 
     @Autowired
-    private MotoboyService motoBoyServive;
+    private MotoboyService motoboyService;
 
     private final String ID_CLIENT = "1";
     private final String ID_RESTAURANT = "1";
@@ -89,9 +84,9 @@ public class OrderServiceTest {
         // turn motoboy available
         Motoboy motoboy  = result.getMotoboy();
         motoboy.setAvailable(true);
-        motoBoyServive.save(motoboy);
+        motoboyService.save(motoboy);
 
-        motoboy = motoBoyServive.getById(motoboy.get_id()).get();
+        motoboy = motoboyService.getById(motoboy.get_id()).get();
         assertTrue(motoboy.isAvailable());
 
         // delete order
@@ -124,9 +119,9 @@ public class OrderServiceTest {
         // turn motoboy available
         Motoboy motoboy  = newOrder.getMotoboy();
         motoboy.setAvailable(true);
-        motoBoyServive.save(motoboy);
+        motoboyService.save(motoboy);
 
-        motoboy = motoBoyServive.getById(motoboy.get_id()).get();
+        motoboy = motoboyService.getById(motoboy.get_id()).get();
         assertTrue(motoboy.isAvailable());
 
         // delete order

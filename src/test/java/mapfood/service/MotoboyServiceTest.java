@@ -2,7 +2,6 @@ package mapfood.service;
 
 import mapfood.model.Location;
 import mapfood.model.Motoboy;
-import mapfood.service.MotoboyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

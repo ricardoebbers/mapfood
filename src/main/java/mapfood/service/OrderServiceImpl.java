@@ -5,7 +5,6 @@ import mapfood.model.*;
 import mapfood.repository.ClientRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +23,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private MotoboyService motoboyService;
-
-    @Autowired
-    private FindNearestService findNearestService;
 
     @Autowired
     private DirectionsService directionsService;
@@ -86,7 +82,7 @@ public class OrderServiceImpl implements OrderService{
     public Order findAndSetMotoboy(String orderId) {
         Order order = orderRepository.findById(orderId).get();
         Restaurant restaurant = order.getRestaurant();
-        Motoboy motoboy = findNearestService.getNearestMotoboy(restaurant.get_id(), 5);
+        Motoboy motoboy = motoboyService.getNearestMotoboy(restaurant.get_id(), 5);
         order.setMotoboy(motoboy);
         motoboy.setAvailable(false);
         motoboyService.save(motoboy);

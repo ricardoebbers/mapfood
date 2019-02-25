@@ -1,42 +1,23 @@
 package mapfood.service;
 
-import lombok.RequiredArgsConstructor;
 import mapfood.model.Location;
 import mapfood.model.Motoboy;
-import mapfood.repository.MotoboyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class MotoboyService {
+public interface MotoboyService {
+    List<Motoboy> getAvailable(Boolean available);
 
-  @Autowired
-  private MotoboyRepository repository;
+    Optional<Motoboy> getById(Integer id);
 
-  public List<Motoboy> getAvailable(Boolean available) {
-    return repository.findByAvailable(available);
-  }
+    void save(Motoboy motoboy);
 
-  public Optional<Motoboy> getById(Integer id) {
-    return repository.findById(id);
-  }
+    void delete(Motoboy motoboy);
 
-  public void save(Motoboy motoboy){
-    repository.save(motoboy);
-  }
-  
-  // Test purpose only
-  public void delete(Motoboy motoboy){
-    repository.delete(motoboy);
-  }
+    void updateLocAndAvailability(Motoboy motoboy, Location location);
 
-  public void updateLocAndAvailability(Motoboy motoboy, Location location) {
-    motoboy.setAvailable(true);
-    motoboy.setLoc(location);
-    this.save(motoboy);
-  }
+    List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer distance);
+
+    Motoboy getNearestMotoboy(Integer restaurantId, Integer distance);
 }
