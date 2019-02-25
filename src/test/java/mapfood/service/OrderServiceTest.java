@@ -25,9 +25,11 @@ import static org.junit.Assert.*;
 public class OrderServiceTest {
 
     @Autowired
-    private OrderService service;
+    OrderService service;
+
     @Autowired
     private OrderRepository repository;
+
     @Autowired
     private MotoboyService motoboyService;
 

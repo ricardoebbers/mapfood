@@ -44,10 +44,10 @@ public class OrderTest {
         Restaurant restaurant = new Restaurant(123);
         List<OrderItem> orderItems = Collections.singletonList(new OrderItem());
         LocalDate date = LocalDate.now();
-        Order order = new Order("abcd", OrderEnum.NOVO, client, motoboy, restaurant,
+        Order order = new Order("abcd", OrderStatus.NEW, client, motoboy, restaurant,
                 orderItems, 10L, date);
         assertEquals("abcd", order.get_id());
-        assertEquals(OrderEnum.NOVO.valorStatus(), order.getOrderStatus().valorStatus());
+        assertEquals(OrderStatus.NEW.getValorStatus(), order.getOrderStatus().getValorStatus());
         assertEquals(client, order.getClient());
         assertEquals(motoboy, order.getMotoboy());
         assertEquals(restaurant, order.getRestaurant());

@@ -42,7 +42,7 @@ public class MotoboyServiceTest {
         assertTrue(result.get().get_id().equals(1));
     }
 
-    private Motoboy createTestMotoboy() {
+    private Motoboy createTestMotoboy(){
 
         Motoboy result = new Motoboy();
         result.setAvailable(true);
@@ -65,16 +65,16 @@ public class MotoboyServiceTest {
         Motoboy motoboy = createTestMotoboy();
         service.save(motoboy);
 
-        if (!motoboy.get_id().toString().isEmpty()) {
-            Optional<Motoboy> result = service.getById(motoboy.get_id());
-            assertNotNull(result);
-            assertTrue(result.isPresent());
-            assertTrue(result.get().get_id().equals(motoboy.get_id()));
+        if(!motoboy.get_id().toString().isEmpty()){
+        Optional<Motoboy> result = service.getById(motoboy.get_id());
+        assertNotNull(result);
+        assertTrue(result.isPresent());
+        assertTrue(result.get().get_id().equals(motoboy.get_id()));
 
-            service.delete(result.get());
-            result = service.getById(motoboy.get_id());
-            assertNotNull(result);
-            assertTrue(!result.isPresent());
+        service.delete(result.get());
+        result = service.getById(motoboy.get_id());
+        assertNotNull(result);
+        assertTrue(!result.isPresent());
         }
     }
 
@@ -118,5 +118,4 @@ public class MotoboyServiceTest {
         assertFalse(!result2.get().isAvailable());
 
     }
-
 }

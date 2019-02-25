@@ -44,6 +44,7 @@ public class RouteTest {
         assertEquals(timeHourMinutes, route.getTimeHourMinutes());
         assertEquals(timeSeconds, route.getTimeSeconds());
 
+
     }
 
 }
