@@ -120,6 +120,7 @@ public class OrderServiceTest {
         motoboyService.save(motoboy);
 
         motoboy = motoboyService.getById(motoboy.get_id()).get();
+        assertTrue(motoboy.isAvailable());
         assertTrue("The motoboy is now available", motoboy.isAvailable());
 
         // delete order
