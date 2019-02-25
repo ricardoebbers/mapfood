@@ -30,7 +30,7 @@ public class MotoboyServiceTest {
     public void givenAvailableConditionGetAvailableMotoboysByStatus() throws Exception {
         List<Motoboy> result = service.getAvailable(true);
         assertNotNull(result);
-        assertTrue(result.size()>0);
+        assertTrue(result.size() > 0);
         assertTrue(result.get(0).isAvailable());
     }
 
@@ -42,7 +42,7 @@ public class MotoboyServiceTest {
         assertTrue(result.get().get_id().equals(1));
     }
 
-    private Motoboy createTestMotoboy(){
+    private Motoboy createTestMotoboy() {
 
         Motoboy result = new Motoboy();
         result.setAvailable(true);
@@ -65,16 +65,16 @@ public class MotoboyServiceTest {
         Motoboy motoboy = createTestMotoboy();
         service.save(motoboy);
 
-        if(!motoboy.get_id().toString().isEmpty()){
-        Optional<Motoboy> result = service.getById(motoboy.get_id());
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertTrue(result.get().get_id().equals(motoboy.get_id()));
+        if (!motoboy.get_id().toString().isEmpty()) {
+            Optional<Motoboy> result = service.getById(motoboy.get_id());
+            assertNotNull(result);
+            assertTrue(result.isPresent());
+            assertTrue(result.get().get_id().equals(motoboy.get_id()));
 
-        service.delete(result.get());
-        result = service.getById(motoboy.get_id());
-        assertNotNull(result);
-        assertTrue(!result.isPresent());
+            service.delete(result.get());
+            result = service.getById(motoboy.get_id());
+            assertNotNull(result);
+            assertTrue(!result.isPresent());
         }
     }
 
@@ -92,7 +92,7 @@ public class MotoboyServiceTest {
         // Setting new localtion and changing availability
         Location l = new Location();
         l.setType("Point");
-        l.setCoordinates(Arrays.asList(new Double[]{0.0,0.0}));
+        l.setCoordinates(Arrays.asList(0.0, 0.0));
         result2.get().setLoc(l);
 
         result2.get().setAvailable(false);
@@ -106,7 +106,7 @@ public class MotoboyServiceTest {
         assertFalse(result2.get().isAvailable());
 
         // restore default values
-        l.setCoordinates(Arrays.asList(new Double[]{-30.07518676,-51.216203}));
+        l.setCoordinates(Arrays.asList(-30.07518676, -51.216203));
         result2.get().setLoc(l);
         result2.get().setAvailable(true);
         service.save(result2.get());
@@ -118,4 +118,5 @@ public class MotoboyServiceTest {
         assertFalse(!result2.get().isAvailable());
 
     }
+
 }

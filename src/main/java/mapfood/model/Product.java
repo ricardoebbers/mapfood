@@ -11,7 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Product {
 
-    @Id Integer _id;
+    @Id
+    Integer _id;
     String item_description;
     String classification;
     double unit_price;

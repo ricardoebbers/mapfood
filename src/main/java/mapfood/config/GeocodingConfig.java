@@ -12,48 +12,46 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GeocodingConfig {
 
-  //This value is read from an environment variable
-  @Value("${MAPFOOD_API_KEY}")
-  private String apiKey;
+    // Language on which the directions instructions will be returned
+    private static final String LANG = "pt_br";
+    //This value is read from an environment variable
+    @Value("${MAPFOOD_API_KEY}")
+    private String apiKey;
 
-  // Language on which the directions instructions will be returned
-  private static final String LANG = "pt_br";
+    /**
+     * Creates the GeoApiContext with the API key read from the environment.
+     *
+     * @return GeoApiContext
+     */
+    @Bean
+    public GeoApiContext getGeoApiContext() {
 
-  /**
-   * Creates the GeoApiContext with the API key
-   * read from the environment.
-   *
-   * @return GeoApiContext
-   */
-  @Bean
-  public GeoApiContext getGeoApiContext() {
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey(this.apiKey)
+                .build();
 
-    GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(this.apiKey)
-        .build();
+        return context;
 
-    return context;
+    }
 
-  }
+    /**
+     * Configures the metric system used by the API.
+     *
+     * @return Unit
+     */
+    @Bean
+    public Unit getUnit() {
+        return Unit.METRIC;
+    }
 
-  /**
-   * Configures the metric system used by the API.
-   *
-   * @return Unit
-   */
-  @Bean
-  public Unit getUnit() {
-    return Unit.METRIC;
-  }
-
-  /**
-   * Configures the language used by the API.
-   *
-   * @return String - locale
-   */
-  @Bean("geocoding_language")
-  public String getLanguage() {
-    return LANG;
-  }
+    /**
+     * Configures the language used by the API.
+     *
+     * @return String - locale
+     */
+    @Bean("geocoding_language")
+    public String getLanguage() {
+        return LANG;
+    }
 
 }

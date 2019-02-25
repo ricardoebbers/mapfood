@@ -14,7 +14,8 @@ import java.util.List;
 @Document
 public class Restaurant {
 
-    @Id Integer _id;
+    @Id
+    Integer _id;
     String restaurant;
     String address_city;
     String dish_description;

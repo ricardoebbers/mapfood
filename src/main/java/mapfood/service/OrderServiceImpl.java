@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     private static final long PREPARATION_TIME = 10;
 
@@ -130,11 +130,13 @@ public class OrderServiceImpl implements OrderService{
 
     /**
      * Receives the OrderId and returns the delivery time
+     *
      * @param idOrder
+     *
      * @return Delivery forecast
      */
     @Override
-    public Long deliveryForecast(String idOrder){
+    public Long deliveryForecast(String idOrder) {
         Optional<Order> order = orderRepository.findById(idOrder);
 
         if (order.isPresent()) {
@@ -155,27 +157,27 @@ public class OrderServiceImpl implements OrderService{
     }
 
     /**
-     *
      * @param motoboy
      * @param restaurant
      * @param client
+     *
      * @return Delivery forecast
      */
     private long calculateDeliveryForecast(Motoboy motoboy, Restaurant restaurant, Client client) {
         //Receives the coordinates of the motoboy and the restaurant and transforms for minutes
         Long secondstimeMotoboyRestaurant = directionsService.getTimeDistance(motoboy.getLoc().getLongitude(),
                 motoboy.getLoc().getLatitude(), restaurant.getLoc().getLongitude(), restaurant.getLoc().getLatitude()).getTimeSeconds();
-        Long minutesTimeMotoboyRestaurant = secondstimeMotoboyRestaurant/60;
+        Long minutesTimeMotoboyRestaurant = secondstimeMotoboyRestaurant / 60;
 
         //Receives the coordinates of the restaurant and the motoboy and transforms for minutes
         Long secondsTimeRestaurantClient = directionsService.getTimeDistance(restaurant.getLoc().getLongitude(),
                 restaurant.getLoc().getLatitude(), client.getLoc().getLongitude(), client.getLoc().getLatitude()).getTimeSeconds();
-        Long minutesTimeRestaurantClient = secondsTimeRestaurantClient/60;
+        Long minutesTimeRestaurantClient = secondsTimeRestaurantClient / 60;
 
         long expecting;
 
         //Calculates delivery time
-        if(minutesTimeMotoboyRestaurant > PREPARATION_TIME){
+        if (minutesTimeMotoboyRestaurant > PREPARATION_TIME) {
             expecting = minutesTimeMotoboyRestaurant + minutesTimeRestaurantClient;
         } else {
             expecting = PREPARATION_TIME + minutesTimeRestaurantClient;
@@ -184,7 +186,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> findAllByDateAndOrderStatus (LocalDate date) {
+    public List<Order> findAllByDateAndOrderStatus(LocalDate date) {
         return orderRepository.findAllByDateAndOrderStatus(date, OrderEnum.RECEBIDO.valorStatus());
     }
+
 }

@@ -19,10 +19,9 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
-
-    @Autowired
     private final DirectionsService directionsService;
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,4 +57,5 @@ public class OrderController {
     public Long getDeliveryForecast(@PathVariable String idOrder) {
         return orderService.deliveryForecast(idOrder);
     }
+
 }

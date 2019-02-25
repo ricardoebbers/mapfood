@@ -11,5 +11,6 @@ public interface ReportService {
     List<Report> getReport(LocalDate date, Integer idRestaurant);
 
     void setDistanceTimeForReport(String timeRoutToRestaurant, String distanceToRestaurant,
-                                  String timeRouteToClient, String distanceToClient,  Restaurant restaurant);
+                                  String timeRouteToClient, String distanceToClient, Restaurant restaurant);
+
 }

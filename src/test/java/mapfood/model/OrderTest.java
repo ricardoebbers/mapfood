@@ -1,13 +1,11 @@
 package mapfood.model;
 
-import org.apache.tomcat.jni.Local;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +45,7 @@ public class OrderTest {
         List<OrderItem> orderItems = Collections.singletonList(new OrderItem());
         LocalDate date = LocalDate.now();
         Order order = new Order("abcd", OrderEnum.NOVO, client, motoboy, restaurant,
-                orderItems,10L, date);
+                orderItems, 10L, date);
         assertEquals("abcd", order.get_id());
         assertEquals(OrderEnum.NOVO.valorStatus(), order.getOrderStatus().valorStatus());
         assertEquals(client, order.getClient());
@@ -57,4 +55,5 @@ public class OrderTest {
         assertEquals(Optional.of(10L), Optional.ofNullable(order.getDeliveryExpectation()));
         assertEquals(date, order.getDate());
     }
+
 }

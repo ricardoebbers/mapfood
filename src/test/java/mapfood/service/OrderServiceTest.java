@@ -18,24 +18,21 @@ import static org.junit.Assert.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderServiceTest {
 
-    @Autowired
-    OrderService service;
-
-    @Autowired
-    private OrderRepository repository;
-
-    @Autowired
-    private MotoboyService motoboyService;
-
     private final String ID_CLIENT = "1";
     private final String ID_RESTAURANT = "1";
+    @Autowired
+    OrderService service;
+    @Autowired
+    private OrderRepository repository;
+    @Autowired
+    private MotoboyService motoboyService;
 
     @Test
     public void givenOrderItemAndClientAndMotoboyCreateOrderDeleteOrder() throws Exception {
         List<OrderItem> orderItems = generateOrderItemsList();
 
         // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT, orderItems);
         assertNotNull(result);
         assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
 
@@ -49,16 +46,16 @@ public class OrderServiceTest {
         List<OrderItem> orderItems = generateOrderItemsList();
 
         // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT, orderItems);
         assertNotNull(result);
         assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
 
         // update order status
-        service.updateStatus(result.get_id(),"CANCELADO");
+        service.updateStatus(result.get_id(), "CANCELADO");
         Optional<Order> updatedOrder = repository.findById(result.get_id());
 
         assertTrue(updatedOrder.isPresent());
-        assertEquals(updatedOrder.get().getOrderStatus().toString(),OrderEnum.CANCELADO.toString());
+        assertEquals(updatedOrder.get().getOrderStatus().toString(), OrderEnum.CANCELADO.toString());
 
         // delete order
         repository.deleteById(updatedOrder.get().get_id());
@@ -70,7 +67,7 @@ public class OrderServiceTest {
         List<OrderItem> orderItems = generateOrderItemsList();
 
         // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT, orderItems);
         assertNotNull(result);
         assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
 
@@ -82,7 +79,7 @@ public class OrderServiceTest {
         assertFalse(result.getMotoboy().isAvailable());
 
         // turn motoboy available
-        Motoboy motoboy  = result.getMotoboy();
+        Motoboy motoboy = result.getMotoboy();
         motoboy.setAvailable(true);
         motoboyService.save(motoboy);
 
@@ -94,13 +91,12 @@ public class OrderServiceTest {
         assertTrue(!repository.findById(result.get_id()).isPresent());
     }
 
-
     @Test
     public void givenOrderIdGetDirections() throws Exception {
         List<OrderItem> orderItems = generateOrderItemsList();
 
         // create order
-        Order newOrder = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order newOrder = service.createOrder(ID_CLIENT, ID_RESTAURANT, orderItems);
         assertNotNull(newOrder);
         assertTrue(newOrder.getOrderStatus().equals(OrderEnum.NOVO));
 
@@ -117,7 +113,7 @@ public class OrderServiceTest {
         assertTrue(!routes.isEmpty());
 
         // turn motoboy available
-        Motoboy motoboy  = newOrder.getMotoboy();
+        Motoboy motoboy = newOrder.getMotoboy();
         motoboy.setAvailable(true);
         motoboyService.save(motoboy);
 
@@ -129,15 +125,14 @@ public class OrderServiceTest {
         assertTrue(!repository.findById(newOrder.get_id()).isPresent());
     }
 
-
-    private Order createRadomOrder(){
+    private Order createRadomOrder() {
 
         Order result = new Order();
 
         return result;
     }
 
-    private List<OrderItem> generateOrderItemsList(){
+    private List<OrderItem> generateOrderItemsList() {
         List<OrderItem> orderItems = new ArrayList<>();
 
         OrderItem orderItem = new OrderItem();
@@ -151,4 +146,5 @@ public class OrderServiceTest {
 
         return orderItems;
     }
+
 }

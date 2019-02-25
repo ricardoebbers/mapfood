@@ -11,4 +11,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Motoboy extends Person {
 
     private boolean available;
+
 }

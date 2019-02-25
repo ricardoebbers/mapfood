@@ -10,7 +10,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class Person {
 
-    @Id Integer _id;
+    @Id
+    Integer _id;
     @Indexed
     Location loc;
 

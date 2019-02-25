@@ -19,7 +19,7 @@ public enum OrderEnum implements Serializable {
         this.valorStatus = valorStatus;
     }
 
-    public String valorStatus(){
+    public String valorStatus() {
         return valorStatus;
     }
 }

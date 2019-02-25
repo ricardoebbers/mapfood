@@ -30,4 +30,5 @@ public class LocationTest {
         assertEquals(-51.216203, location.getLatitude(), 0.001);
         assertEquals(-30.07518676, location.getLongitude(), 0.001);
     }
+
 }

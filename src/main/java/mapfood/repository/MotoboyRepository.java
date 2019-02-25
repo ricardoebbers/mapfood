@@ -14,4 +14,5 @@ public interface MotoboyRepository extends BaseRepository<Motoboy, Integer> {
 
     List<Motoboy> findTop10ByLocNearAndAvailable(Point location, Distance distance,
                                                  boolean available);
+
 }

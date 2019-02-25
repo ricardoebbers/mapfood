@@ -35,9 +35,9 @@ public class DirectionsServiceImpl implements DirectionsService {
     /**
      * Get the directions for the given locations descriptions.
      *
-     * @param origin      - String describing the origin location,
-     *                    like Shopping Rio Mar or Olinda
+     * @param origin      - String describing the origin location, like Shopping Rio Mar or Olinda
      * @param destination - String describing the destination location
+     *
      * @return DirectionResult
      */
     @Override
@@ -54,10 +54,10 @@ public class DirectionsServiceImpl implements DirectionsService {
     /**
      * Get the directions for the given locations descriptions.
      *
-     * @param origin      - String describing the origin location,
-     *                    like Shopping Rio Mar or Olinda
+     * @param origin      - String describing the origin location, like Shopping Rio Mar or Olinda
      * @param destination - String describing the destination location
-     * @param waypoint - String describring the waypoint
+     * @param waypoint    - String describring the waypoint
+     *
      * @return DirectionResult
      */
     @Override
@@ -80,6 +80,7 @@ public class DirectionsServiceImpl implements DirectionsService {
      * @param originLong - Origin's longitude
      * @param destLat    - Destination's latitude
      * @param destLong   - Destination's longitude
+     *
      * @return DirectionResult
      */
     @Override
@@ -99,6 +100,7 @@ public class DirectionsServiceImpl implements DirectionsService {
      * et the directions for the given DirectionsApiRequest.
      *
      * @param request
+     *
      * @return DirectionResult
      */
     @Override
@@ -120,10 +122,12 @@ public class DirectionsServiceImpl implements DirectionsService {
 
     /**
      * Get the RouteTimes for the given coordinates.
+     *
      * @param originLat
      * @param originLong
      * @param destLat
      * @param destLong
+     *
      * @return RouteTimes
      */
     @Override

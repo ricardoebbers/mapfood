@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MotoboyService {
+
     List<Motoboy> getAvailable(Boolean available);
 
     Optional<Motoboy> getById(Integer id);
@@ -20,4 +21,5 @@ public interface MotoboyService {
     List<Motoboy> getNearestMotoboys(Integer restaurantId, Integer distance);
 
     Motoboy getNearestMotoboy(Integer restaurantId, Integer distance);
+
 }

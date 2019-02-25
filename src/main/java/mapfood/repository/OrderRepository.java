@@ -1,7 +1,6 @@
 package mapfood.repository;
 
 import mapfood.model.Order;
-import mapfood.model.Restaurant;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 import java.time.LocalDate;

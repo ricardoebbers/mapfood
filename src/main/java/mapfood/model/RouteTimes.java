@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 public class RouteTimes {
 
     String distance;
-    Long distanceMeters ;
+    Long distanceMeters;
     String timeHourMinutes;
     Long timeSeconds;
 

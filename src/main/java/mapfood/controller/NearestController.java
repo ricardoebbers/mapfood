@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @BasePathAwareController
 @RestController
 @RequestMapping("/nearest")
@@ -25,4 +24,5 @@ public class NearestController {
             @RequestParam(value = "distance", required = false) Integer distance) {
         return this.motoboyService.getNearestMotoboys(restaurantId, distance);
     }
+
 }

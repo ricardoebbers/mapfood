@@ -16,4 +16,5 @@ public class Route {
     String distance;
     String duration;
     List<String> route;
+
 }

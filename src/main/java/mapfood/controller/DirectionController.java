@@ -17,24 +17,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DirectionController {
 
-  @Autowired
-  private DirectionsService directionsService;
+    @Autowired
+    private DirectionsService directionsService;
 
-  @Autowired
-  private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-  @GetMapping
-  public DirectionsResult getDirections(
-      @RequestParam String origin,
-      @RequestParam String destination
-  ) {
-    return directionsService.getDirections(origin, destination);
-  }
+    @GetMapping
+    public DirectionsResult getDirections(
+            @RequestParam String origin,
+            @RequestParam String destination
+    ) {
+        return directionsService.getDirections(origin, destination);
+    }
 
-  @GetMapping("/{orderId}")
-  public List<Route> getOrderDirections(
-          @PathVariable String orderId
-  ) {
-    return orderService.getOrderDirections(orderId);
-  }
+    @GetMapping("/{orderId}")
+    public List<Route> getOrderDirections(
+            @PathVariable String orderId
+    ) {
+        return orderService.getOrderDirections(orderId);
+    }
+
 }
