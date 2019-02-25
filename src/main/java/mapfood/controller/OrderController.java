@@ -1,6 +1,7 @@
 package mapfood.controller;
 
 import lombok.RequiredArgsConstructor;
+import mapfood.dto.OrderDto;
 import mapfood.model.Order;
 import mapfood.model.OrderItem;
 import mapfood.service.DirectionsService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @BasePathAwareController
 @RestController
@@ -19,38 +21,56 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private final DirectionsService directionsService;
+    private DirectionsService directionsService;
     @Autowired
     private OrderService orderService;
 
+
+    @GetMapping
+    public List<OrderDto> getAll() {
+        return this.orderService
+            .findAll()
+            .stream()
+            .map(OrderDto::new)
+            .collect(Collectors.toList());
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrder(
+    public OrderDto createOrder(
             @RequestBody List<OrderItem> orderItemList,
             @RequestParam String idRestaurant,
             @RequestParam String idClient) {
 
-        return orderService.createOrder(idClient, idRestaurant, orderItemList);
+        Order order = orderService.createOrder(idClient, idRestaurant, orderItemList);
+
+        return new OrderDto(order);
     }
 
     @PutMapping("/{orderId}")
-    public Order updateOrderStatus(
+    public OrderDto updateOrderStatus(
             @PathVariable String orderId,
             @RequestParam String status) {
-        return orderService.updateStatus(orderId, status);
+
+        Order order =  orderService.updateStatus(orderId, status);
+
+        return new OrderDto(order);
     }
 
     @PutMapping("/{orderId}/motoboy")
-    public Order findAndSetMotoboy(
+    public OrderDto findAndSetMotoboy(
             @PathVariable String orderId) {
-        return orderService.findAndSetMotoboy(orderId);
+        return new OrderDto(orderService.findAndSetMotoboy(orderId));
     }
 
     @GetMapping("/{idRestaurant}")
-    public List<Order> getOrdersForRestaurant(
+    public List<OrderDto> getOrdersForRestaurant(
             @PathVariable String idRestaurant,
             @RequestParam(value = "status", required = false) String status) {
-        return orderService.getOrderForRestaurant(idRestaurant, status);
+        return orderService.getOrderForRestaurant(idRestaurant, status)
+            .stream()
+            .map(OrderDto::new)
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/deliveryForecast/{idOrder}")

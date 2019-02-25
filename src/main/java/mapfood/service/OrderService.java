@@ -23,4 +23,6 @@ public interface OrderService {
 
     List<Order> findAllByDateAndOrderStatus(LocalDate date);
 
+    List<Order> findAll();
+
 }

@@ -190,4 +190,8 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAllByDateAndOrderStatus(date, OrderEnum.RECEBIDO.valorStatus());
     }
 
+    @Override
+    public List<Order> findAll() {
+        return this.orderRepository.findAll();
+    }
 }
