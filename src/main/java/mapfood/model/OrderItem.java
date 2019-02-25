@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItem  {
+public class OrderItem {
 
     Product product;
     Integer quantity;
