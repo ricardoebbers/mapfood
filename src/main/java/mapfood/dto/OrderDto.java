@@ -2,6 +2,7 @@ package mapfood.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import mapfood.model.*;
 import org.springframework.beans.BeanUtils;
@@ -10,15 +11,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDto {
 
   String _id;
-  OrderEnum orderStatus;
+  OrderStatus orderStatus;
   Integer client;
   Integer motoboy;
   Integer restaurant;
-  List<OrderItem> orderItems;
+  List<OrderItemDto> orderItems;
   Long deliveryExpectation;
   LocalDate date;
 

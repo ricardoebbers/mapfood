@@ -20,7 +20,7 @@ public class Order {
 
     @Id
     String _id;
-    OrderEnum orderStatus;
+    OrderStatus orderStatus;
     Client client;
     Motoboy motoboy;
     Restaurant restaurant;

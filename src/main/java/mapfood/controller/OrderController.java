@@ -3,12 +3,13 @@ package mapfood.controller;
 import lombok.RequiredArgsConstructor;
 import mapfood.dto.OrderDto;
 import mapfood.model.Order;
-import mapfood.model.OrderItem;
+import mapfood.model.OrderStatus;
 import mapfood.service.DirectionsService;
 import mapfood.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,20 +38,23 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrder(
-            @RequestBody List<OrderItem> orderItemList,
-            @RequestParam String idRestaurant,
-            @RequestParam String idClient) {
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto dto) {
 
-        Order order = orderService.createOrder(idClient, idRestaurant, orderItemList);
+        try {
 
-        return new OrderDto(order);
+            Order order = orderService.createOrder(dto);
+            return ResponseEntity.ok(new OrderDto(order));
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PutMapping("/{orderId}")
     public OrderDto updateOrderStatus(
             @PathVariable String orderId,
-            @RequestParam String status) {
+            @RequestParam OrderStatus status) {
 
         Order order =  orderService.updateStatus(orderId, status);
 

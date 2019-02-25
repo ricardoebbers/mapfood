@@ -6,11 +6,9 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItem extends Product {
+public class OrderItem  {
 
-    private Integer quantity;
-
-    public OrderItem() {
-    }
+    Product product;
+    Integer quantity;
 
 }
