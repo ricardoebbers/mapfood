@@ -57,13 +57,13 @@ public class OrderServiceImpl implements OrderService {
         Assert.notNull(dto.getRestaurant(), "The restaurant must be informed");
 
         Client client = this.clientRepository.findById(dto.getClient())
-            .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(IllegalArgumentException::new);
 
         Restaurant restaurant = this.restaurantRepository.findById(dto.getRestaurant())
-            .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(IllegalArgumentException::new);
 
         Motoboy motoboy = dto.getMotoboy() != null ?
-            this.motoboyService.getById(dto.getMotoboy()).orElse(null) : null;
+                this.motoboyService.getById(dto.getMotoboy()).orElse(null) : null;
 
         Order order = new Order();
 
@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
         order.setRestaurant(restaurant);
 
         List<OrderItem> items = dto.getOrderItems().stream().map(
-            i -> this.createOrderItemFromDto(i, restaurant)
+                i -> this.createOrderItemFromDto(i, restaurant)
         ).collect(Collectors.toList());
 
         order.setOrderItems(items);
@@ -87,19 +87,19 @@ public class OrderServiceImpl implements OrderService {
     public OrderItem createOrderItemFromDto(OrderItemDto itemDto, Restaurant restaurant) {
 
         return restaurant.getProducts()
-            .stream()
-            .filter(product -> product.get_id().equals(itemDto.getProduct()))
-            .map(product -> {
+                .stream()
+                .filter(product -> product.get_id().equals(itemDto.getProduct()))
+                .map(product -> {
 
-                OrderItem item = new OrderItem();
+                    OrderItem item = new OrderItem();
 
-                item.setProduct(product);
-                item.setQuantity(itemDto.getQuantity());
+                    item.setProduct(product);
+                    item.setQuantity(itemDto.getQuantity());
 
-                return item;
-            })
-            .findFirst()
-            .orElseThrow(IllegalArgumentException::new);
+                    return item;
+                })
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
 
     }
 
@@ -226,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllByDateAndOrderStatus (LocalDate date) {
+    public List<Order> findAllByDateAndOrderStatus(LocalDate date) {
         return orderRepository.findAllByDateAndOrderStatus(date, OrderStatus.RECEIVED.getValorStatus());
     }
 
@@ -234,4 +234,5 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findAll() {
         return this.orderRepository.findAll();
     }
+
 }

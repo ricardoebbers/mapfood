@@ -26,14 +26,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-
     @GetMapping
     public List<OrderDto> getAll() {
         return this.orderService
-            .findAll()
-            .stream()
-            .map(OrderDto::new)
-            .collect(Collectors.toList());
+                .findAll()
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -56,7 +55,7 @@ public class OrderController {
             @PathVariable String orderId,
             @RequestParam OrderStatus status) {
 
-        Order order =  orderService.updateStatus(orderId, status);
+        Order order = orderService.updateStatus(orderId, status);
 
         return new OrderDto(order);
     }
@@ -72,9 +71,9 @@ public class OrderController {
             @PathVariable String idRestaurant,
             @RequestParam(value = "status", required = false) String status) {
         return orderService.getOrderForRestaurant(idRestaurant, status)
-            .stream()
-            .map(OrderDto::new)
-            .collect(Collectors.toList());
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/deliveryForecast/{idOrder}")

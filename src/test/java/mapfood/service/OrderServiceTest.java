@@ -5,8 +5,6 @@ import mapfood.dto.OrderItemDto;
 import mapfood.model.*;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
-import mapfood.service.MotoboyService;
-import mapfood.service.OrderService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,22 +22,17 @@ import static org.junit.Assert.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderServiceTest {
 
-    @Autowired
-    OrderService service;
-
-    @Autowired
-    private OrderRepository repository;
-
-    @Autowired
-    private MotoboyService motoboyService;
-
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
     private final Integer ID_CLIENT = 1;
     private final Integer ID_RESTAURANT = 1;
     private final Integer ID_PRODUCT = 838;
-
+    @Autowired
+    OrderService service;
+    @Autowired
+    private OrderRepository repository;
+    @Autowired
+    private MotoboyService motoboyService;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
     private OrderDto dto;
 
     @Before
@@ -68,7 +61,6 @@ public class OrderServiceTest {
 
     @Test
     public void givenOrderItemAndClientAndMotoboyCreateOrderDeleteOrder() throws Exception {
-
 
         Order result = service.createOrder(this.dto);
         assertNotNull(result);
@@ -167,6 +159,5 @@ public class OrderServiceTest {
 
         return result;
     }
-
 
 }

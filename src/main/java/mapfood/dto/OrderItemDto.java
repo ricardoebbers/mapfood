@@ -12,16 +12,16 @@ import mapfood.model.Product;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemDto {
 
-  Integer product;
-  Integer quantity;
+    Integer product;
+    Integer quantity;
 
-  public OrderItemDto(OrderItem item) {
+    public OrderItemDto(OrderItem item) {
 
-    Product product = item.getProduct();
+        Product product = item.getProduct();
 
-    this.product = product != null ? product.get_id() : null;
-    this.quantity = item.getQuantity();
+        this.product = product != null ? product.get_id() : null;
+        this.quantity = item.getQuantity();
 
-  }
+    }
 
 }
