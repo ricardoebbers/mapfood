@@ -1,12 +1,13 @@
 package mapfood;
 
+import mapfood.dto.OrderDto;
+import mapfood.dto.OrderItemDto;
 import mapfood.model.*;
-import mapfood.repository.ClientRepository;
-import mapfood.repository.MotoboyRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
 import mapfood.service.MotoboyService;
 import mapfood.service.OrderService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +33,46 @@ public class OrderServiceTest {
     @Autowired
     private MotoboyService motoBoyServive;
 
-    private final String ID_CLIENT = "1";
-    private final String ID_RESTAURANT = "1";
-    
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    private final Integer ID_CLIENT = 1;
+    private final Integer ID_RESTAURANT = 1;
+    private final Integer ID_PRODUCT = 838;
+
+    private OrderDto dto;
+
+    @Before
+    public void beforeEach() {
+
+        List<OrderItemDto> items = new ArrayList<>(1);
+
+        items.add(new OrderItemDto(ID_PRODUCT, 3));
+
+        this.dto = new OrderDto();
+        dto.setClient(ID_CLIENT);
+        dto.setRestaurant(ID_RESTAURANT);
+        dto.setOrderItems(items);
+
+    }
+
+    @Test
+    public void givenProductItemAndQuantityShouldCreateOrderItem() {
+
+        Restaurant restaurant = this.restaurantRepository.findById(ID_RESTAURANT).get();
+
+        OrderItemDto dto = new OrderItemDto(ID_PRODUCT, 3);
+        assertNotNull("Order item created", service.createOrderItemFromDto(dto, restaurant));
+
+    }
+
     @Test
     public void givenOrderItemAndClientAndMotoboyCreateOrderDeleteOrder() throws Exception {
-        List<OrderItem> orderItems = generateOrderItemsList();
-        
-        // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+
+
+        Order result = service.createOrder(this.dto);
         assertNotNull(result);
-        assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
+        assertTrue(result.getOrderStatus().equals(OrderStatus.NEW));
         
         // delete order
         repository.deleteById(result.get_id());
@@ -51,19 +81,18 @@ public class OrderServiceTest {
     
     @Test
     public void givenOrderIdUpdateStatus() throws Exception {
-        List<OrderItem> orderItems = generateOrderItemsList();
-        
+
         // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order result = service.createOrder(this.dto);
         assertNotNull(result);
-        assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
+        assertTrue(result.getOrderStatus().equals(OrderStatus.NEW));
         
         // update order status
-        service.updateStatus(result.get_id(),"CANCELADO");
+        service.updateStatus(result.get_id(), OrderStatus.CANCELLED);
         Optional<Order> updatedOrder = repository.findById(result.get_id());
         
         assertTrue(updatedOrder.isPresent());
-        assertEquals(updatedOrder.get().getOrderStatus().toString(),OrderEnum.CANCELADO.toString());
+        assertEquals(updatedOrder.get().getOrderStatus().toString(), OrderStatus.CANCELLED.toString());
         
         // delete order
         repository.deleteById(updatedOrder.get().get_id());
@@ -72,19 +101,18 @@ public class OrderServiceTest {
     
     @Test
     public void givenOrderIdFindAndSetMotoboy() throws Exception {
-        List<OrderItem> orderItems = generateOrderItemsList();
-        
+
         // create order
-        Order result = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
-        assertNotNull(result);
-        assertTrue(result.getOrderStatus().equals(OrderEnum.NOVO));
+        Order result = service.createOrder(this.dto);
+        assertNotNull("The order was created", result);
+        assertEquals("The creted order has status NEW", OrderStatus.NEW, result.getOrderStatus());
         
-        assertNull(result.getMotoboy());
+        assertNull("The created order has no motoboy assigned", result.getMotoboy());
         
         // update find and set motoboy
         result = service.findAndSetMotoboy(result.get_id());
-        assertNotNull(result.getMotoboy());
-        assertFalse(result.getMotoboy().isAvailable());
+        assertNotNull("The order was assigned a motoboy", result.getMotoboy());
+        assertFalse("The assigned motoboy is not available", result.getMotoboy().isAvailable());
         
         // turn motoboy available
         Motoboy motoboy  = result.getMotoboy();
@@ -92,22 +120,21 @@ public class OrderServiceTest {
         motoBoyServive.save(motoboy);
     
         motoboy = motoBoyServive.getById(motoboy.get_id()).get();
-        assertTrue(motoboy.isAvailable());
+        assertTrue("The motoboy is now available", motoboy.isAvailable());
     
         // delete order
         repository.deleteById(result.get_id());
-        assertTrue(!repository.findById(result.get_id()).isPresent());
+        assertTrue("The order was deleted", !repository.findById(result.get_id()).isPresent());
     }
     
     
     @Test
     public void givenOrderIdGetDirections() throws Exception {
-        List<OrderItem> orderItems = generateOrderItemsList();
-        
+
         // create order
-        Order newOrder = service.createOrder(ID_CLIENT, ID_RESTAURANT,orderItems);
+        Order newOrder = service.createOrder(this.dto);
         assertNotNull(newOrder);
-        assertTrue(newOrder.getOrderStatus().equals(OrderEnum.NOVO));
+        assertTrue(newOrder.getOrderStatus().equals(OrderStatus.NEW));
         
         assertNull(newOrder.getMotoboy());
         
@@ -141,19 +168,6 @@ public class OrderServiceTest {
     
         return result;
     }
-    
-    private List<OrderItem> generateOrderItemsList(){
-        List<OrderItem> orderItems = new ArrayList<>();
-    
-        OrderItem orderItem = new OrderItem();
-        orderItem.setUnit_price(5.5);
-        orderItem.set_id(838);
-        orderItem.setItem_description("Refrigerantes Lata TEST");
-        orderItem.setClassification("Bebidas TEST");
-        orderItem.setQuantity(2);
-    
-        orderItems.add(orderItem);
-        
-        return orderItems;
-    }
+
+
 }

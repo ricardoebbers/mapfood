@@ -1,20 +1,27 @@
 package mapfood.service;
 
 import com.google.maps.model.DirectionsResult;
+import lombok.RequiredArgsConstructor;
+import mapfood.dto.OrderDto;
+import mapfood.dto.OrderItemDto;
 import mapfood.model.*;
 import mapfood.repository.ClientRepository;
 import mapfood.repository.OrderRepository;
 import mapfood.repository.RestaurantRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
 
     private static final long PREPARATION_TIME = 10;
 
@@ -40,44 +47,77 @@ public class OrderServiceImpl implements OrderService{
     private ReportService reportService;
 
     @Override
-    public Order createOrder(String idClient, String idRestaurant, List<OrderItem> orderItemList) {
+    public Order createOrder(OrderDto dto) {
 
-        Optional<Client> client = clientRepository.findById(Integer.valueOf(idClient));
-        Optional<Restaurant> restaurant = restaurantRepository.findById(Integer.valueOf(idRestaurant));
-        int totalQuantity = 0;
+        Order order = this.createOrderFromDto(dto);
+        return this.orderRepository.save(order);
 
-        if (client.isPresent() && restaurant.isPresent()) {
-            Client clientFinded = client.get();
-            Restaurant restaurantFinded = restaurant.get();
+    }
 
-            for (OrderItem orderItem : orderItemList) {
-                totalQuantity += orderItem.getQuantity();
-            }
+    public Order createOrderFromDto(OrderDto dto) {
 
-            if (!orderItemList.isEmpty()) {
+        Assert.notNull(dto.getClient(), "The client must be informed");
+        Assert.notNull(dto.getRestaurant(), "The restaurant must be informed");
 
-                Order order = new Order();
-                order.setClient(clientFinded);
-                order.setOrderItems(orderItemList);
-                order.setRestaurant(restaurantFinded);
-                order.setOrderStatus(OrderEnum.NOVO);
-                order.setDate(LocalDate.now());
+        Client client = this.clientRepository.findById(dto.getClient())
+            .orElseThrow(IllegalArgumentException::new);
 
-                return orderRepository.save(order);
-            }
-        }
-        return null;
+        Restaurant restaurant = this.restaurantRepository.findById(dto.getRestaurant())
+            .orElseThrow(IllegalArgumentException::new);
+
+        Motoboy motoboy = dto.getMotoboy() != null ?
+            this.motoboyService.getById(dto.getMotoboy()).orElse(null) : null;
+
+        Order order = new Order();
+
+        BeanUtils.copyProperties(dto, order);
+
+        order.setOrderStatus(OrderStatus.NEW);
+        order.setClient(client);
+        order.setMotoboy(motoboy);
+        order.setRestaurant(restaurant);
+
+        List<OrderItem> items = dto.getOrderItems().stream().map(
+            i -> this.createOrderItemFromDto(i, restaurant)
+        ).collect(Collectors.toList());
+
+        order.setOrderItems(items);
+
+        return order;
+
+    }
+
+    public OrderItem createOrderItemFromDto(OrderItemDto itemDto, Restaurant restaurant) {
+
+        return restaurant.getProducts()
+            .stream()
+            .filter(product -> product.get_id().equals(itemDto.getProduct()))
+            .map(product -> {
+
+                OrderItem item = new OrderItem();
+
+                item.setProduct(product);
+                item.setQuantity(itemDto.getQuantity());
+
+                return item;
+            })
+            .findFirst()
+            .orElseThrow(IllegalArgumentException::new);
+
     }
 
     @Override
-    public Order updateStatus(String orderId, String status) {
+    public Order updateStatus(String orderId, OrderStatus status) {
+
         Order order = orderRepository.findById(orderId).get();
-        OrderEnum orderEnum = OrderEnum.valueOf(status);
-        if (orderEnum == OrderEnum.ENTREGUE) {
+
+        if (status == OrderStatus.DELIVERED) {
             motoboyService.updateLocAndAvailability(order.getMotoboy(), order.getClient().getLoc());
         }
-        order.setOrderStatus(OrderEnum.valueOf(status));
+
+        order.setOrderStatus(status);
         orderRepository.save(order);
+
         return order;
     }
 
@@ -188,7 +228,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<Order> findAllByDateAndOrderStatus (LocalDate date) {
-        return orderRepository.findAllByDateAndOrderStatus(date, OrderEnum.RECEBIDO.valorStatus());
+        return orderRepository.findAllByDateAndOrderStatus(date, OrderStatus.RECEIVED.getValorStatus());
     }
 
     @Override
