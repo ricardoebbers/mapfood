@@ -73,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
         order.setClient(client);
         order.setMotoboy(motoboy);
         order.setRestaurant(restaurant);
+        order.setDate(LocalDate.now());
 
         List<OrderItem> items = dto.getOrderItems().stream().map(
                 i -> this.createOrderItemFromDto(i, restaurant)
